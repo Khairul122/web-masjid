@@ -147,19 +147,39 @@
         <!--END PAGE CONTENT -->
 
          <!-- RIGHT STRIP  SECTION -->
-        <div id="right">
-            <div class="well well-small">
-                <ul class="list-unstyled">
-				<?php
-				$conn1 = mysqli_connect("localhost", "root", "", "db_masjid");
-				$query1 = "SELECT id_user, COUNT(*) AS jml1 FROM tbl_user";
-				$sql1 = mysqli_query($conn1, $query1);
-				$row1 = mysqli_fetch_assoc($sql1);
-				?>
-                <li>Pengguna &nbsp; : <span><?php echo $row1['jml1'];?></span></li>
-                </ul>
-            </div>
-        </div>
+         <div id="right">
+    <div class="well well-small">
+        <ul class="list-unstyled">
+            <?php
+            // Koneksi ke database
+            $conn1 = mysqli_connect("localhost", "root", "", "db_masjid");
+
+            // Periksa koneksi
+            if (!$conn1) {
+                die("Koneksi gagal: " . mysqli_connect_error());
+            }
+
+            // Query untuk menghitung jumlah pengguna
+            $query1 = "SELECT COUNT(*) AS jml1 FROM tbl_user";
+            $sql1 = mysqli_query($conn1, $query1);
+
+            // Periksa hasil query
+            if ($sql1) {
+                $row1 = mysqli_fetch_assoc($sql1);
+                $jml1 = $row1['jml1']; // Jumlah pengguna
+            } else {
+                $jml1 = 0; // Default jika query gagal
+                echo "Error: " . mysqli_error($conn1);
+            }
+
+            // Tutup koneksi
+            mysqli_close($conn1);
+            ?>
+            <li>Pengguna &nbsp; : <span><?php echo $jml1; ?></span></li>
+        </ul>
+    </div>
+</div>
+
          <!-- END RIGHT STRIP  SECTION -->
     </div>
 

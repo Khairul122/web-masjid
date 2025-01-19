@@ -1,127 +1,122 @@
 <?php
-if(isset($_POST['cetak'])){
-date_default_timezone_set('Asia/Jakarta');
-$db = mysqli_connect("localhost","root","","db_masjid");
-require('../../library/fpdf17/fpdf.php');
-require('../library/fungsi.php');
-$tglawal = $_POST['tglawal'];
-$tglakhir = $_POST['tglakhir'];
-$result=mysqli_query($db,"SELECT id_pengeluaran,tbl_kategori.nama_kategori,nominal,keterangan,tgl_pengeluaran 
-				FROM tbl_pengeluaran JOIN tbl_kategori USING(id_kategori) 
-				where tgl_pengeluaran BETWEEN '$tglawal' AND '$tglakhir'
-				order by id_pengeluaran ASC") or die(mysqli_error());
+if (isset($_POST['cetak'])) {
+    require_once("../../library/tcpdf/tcpdf.php");
+    $db = mysqli_connect("localhost", "root", "", "db_masjid");
 
-//Inisiasi untuk membuat header kolom
-$column_no = "";
-$column_id_pengeluaran = "";
-$column_nama_kategori= "";
-$column_nominal = "";
-$column_keterangan = "";
-$column_tgl_pengeluaran= "";
+    $tglawal = $_POST['tglawal'];
+    $tglakhir = $_POST['tglakhir'];
+    $pimpinan = $_POST['pimpinan']; // Nama pimpinan dari input form
 
+    // Fungsi untuk nama bulan dalam bahasa Indonesia
+    function namaBulan($tanggal) {
+        $bulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
+        $tanggalObj = strtotime($tanggal);
+        $bulanIndex = date('n', $tanggalObj); // Ambil nomor bulan
+        return date('d', $tanggalObj) . ' ' . $bulan[$bulanIndex] . ' ' . date('Y', $tanggalObj);
+    }
 
-//For each row, add the field to the corresponding column
-$no=1;
-if(mysqli_num_rows($result) > 0){
-while($row = mysqli_fetch_array($result))
-{
-	$no = $no++;
-	$id_pengeluaran      = $row["id_pengeluaran"];
-	$nama_kategori   	 = $row["nama_kategori"];
-	$nominal   	 		 = $row["nominal"];
-	$keterangan   	  	 = $row["keterangan"];
-	$tgl_pengeluaran	 = $row["tgl_pengeluaran"];
- 
-	$column_no 			   = $column_no.$no++."\n";
-	$column_id_pengeluaran = $column_id_pengeluaran.$id_pengeluaran."\n";
-    $column_nama_kategori  = $column_nama_kategori.$nama_kategori."\n";
-    $column_nominal		   = $column_nominal.$nominal."\n";
-    $column_keterangan     = $column_keterangan.$keterangan."\n";
-    $column_tgl_pengeluaran= $column_tgl_pengeluaran.$tgl_pengeluaran."\n";
+    // Query untuk mendapatkan data pengeluaran
+    $query = "
+        SELECT id_pengeluaran, tbl_kategori.nama_kategori, nominal, keterangan, tgl_pengeluaran
+        FROM tbl_pengeluaran
+        JOIN tbl_kategori USING(id_kategori)
+        WHERE tgl_pengeluaran BETWEEN '$tglawal' AND '$tglakhir'
+        ORDER BY id_pengeluaran ASC
+    ";
+    $result = mysqli_query($db, $query);
 
-//Create a new PDF file
-$pdf = new FPDF('L','mm',array(360,210)); //L For Landscape / P For Portrait
-$pdf->AddPage();
+    if (mysqli_num_rows($result) > 0) {
+        // Inisialisasi TCPDF untuk kertas A4 landscape
+        $pdf = new TCPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator(PDF_CREATOR);
+        $pdf->SetTitle('Laporan Data Pengeluaran');
+        $pdf->SetMargins(15, 20, 15);
+        $pdf->SetHeaderMargin(10);
+        $pdf->SetFooterMargin(10);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->AddPage();
 
-//Menambahkan Gambar
+        // Kop Laporan
+        $pdf->SetFont('helvetica', 'B', 16);
+        $pdf->Cell(0, 10, 'MASJID AL-IKHLAS', 0, 1, 'C');
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0, 7, 'Alamat: Lrg Karya Bhakti, Kec. Pasar Muara Bungo, Kab. Bungo, Jambi', 0, 1, 'C');
+        $pdf->Ln(5);
+        $pdf->SetLineWidth(0.5);
+        $pdf->Line(15, $pdf->GetY(), 285, $pdf->GetY()); // Garis pembatas (285 untuk A4 landscape)
+        $pdf->Ln(8);
 
-$pdf->SetFont('Arial','B',13);
-$pdf->Cell(140);
-$pdf->Cell(50,2,'DATA PENGELUARAN',0,0,'C');
-$pdf->Ln();
-$pdf->Cell(140);
-$pdf->Cell(50,10,'Masjid Al-Ikhlas | SIMAS',0,0,'C');
-$pdf->Ln();
+        // Judul Laporan
+        $pdf->SetFont('helvetica', 'B', 14);
+        $pdf->Cell(0, 10, 'LAPORAN DATA PENGELUARAN', 0, 1, 'C');
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0, 7, 'Periode: ' . namaBulan($tglawal) . ' s/d ' . namaBulan($tglakhir), 0, 1, 'C');
+        $pdf->Ln(5);
 
+        // Header Tabel
+        $pdf->SetFont('helvetica', 'B', 10);
+        $pdf->SetFillColor(200, 220, 255);
+        $pdf->Cell(10, 8, 'No', 1, 0, 'C', 1);
+        $pdf->Cell(40, 8, 'ID Pengeluaran', 1, 0, 'C', 1);
+        $pdf->Cell(60, 8, 'Kategori', 1, 0, 'C', 1);
+        $pdf->Cell(50, 8, 'Nominal (Rp)', 1, 0, 'C', 1);
+        $pdf->Cell(80, 8, 'Keterangan', 1, 0, 'C', 1);
+        $pdf->Cell(30, 8, 'Tanggal', 1, 1, 'C', 1);
+
+        // Isi Tabel
+        $pdf->SetFont('helvetica', '', 10);
+        $no = 1;
+        $total = 0;
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $pdf->Cell(10, 8, $no++, 1, 0, 'C');
+            $pdf->Cell(40, 8, $row['id_pengeluaran'], 1, 0, 'C');
+            $pdf->Cell(60, 8, $row['nama_kategori'], 1, 0, 'C');
+            $pdf->Cell(50, 8, number_format($row['nominal'], 0, ',', '.'), 1, 0, 'R');
+            $pdf->Cell(80, 8, $row['keterangan'], 1, 0, 'C');
+            $pdf->Cell(30, 8, namaBulan($row['tgl_pengeluaran']), 1, 1, 'C');
+            $total += $row['nominal'];
+        }
+
+        // Total Pengeluaran
+        $pdf->SetFont('helvetica', 'B', 10);
+        $pdf->Cell(240, 8, 'Total', 1, 0, 'C', 1);
+        $pdf->Cell(30, 8, number_format($total, 0, ',', '.'), 1, 1, 'R', 1);
+
+        // Tanda Tangan
+        $pdf->Ln(10);
+        $pdf->SetX(200); // Posisi tanda tangan di sebelah kanan
+        $pdf->SetFont('helvetica', '', 12);
+        $pdf->Cell(0, 6, 'Bungo, ' . namaBulan(date('Y-m-d')), 0, 1, 'L');
+        $pdf->SetX(200);
+        $pdf->Cell(0, 6, 'Mengetahui,', 0, 1, 'L');
+        $pdf->Ln(20);
+        $pdf->SetX(200);
+        $pdf->Cell(0, 6, $pimpinan, 0, 1, 'L');
+
+        // Output PDF
+        $pdf->Output('laporan_data_pengeluaran.pdf', 'I');
+    } else {
+        echo "<script>
+            alert('Tidak ada data pada periode yang dipilih.');
+            window.location.href = '../index.php?m=contents&p=laporan';
+        </script>";
+    }
+} else {
+    echo "Cetak data GAGAL";
 }
-//Fields Name position
-$Y_Fields_Name_position = 30;
-
-//First create each Field Name
-//Gray color filling each Field Name box
-$pdf->SetFillColor(180,180,180);
-//Bold Font for Field Name
-$pdf->SetFont('Arial','B',10);
-$pdf->SetY($Y_Fields_Name_position);
-$pdf->SetX(65);
-$pdf->Cell(12,8,'No',1,0,'C',1);
-
-$pdf->SetX(77);
-$pdf->Cell(25,8,'ID Pengeluaran',1,0,'C',1);
-
-$pdf->SetX(102);
-$pdf->Cell(60,8,'Kategori',1,0,'C',1);
-
-$pdf->SetX(162);
-$pdf->Cell(30,8,'Nominal',1,0,'C',1);
-
-$pdf->SetX(192);
-$pdf->Cell(60,8,'Keterangan',1,0,'C',1);
-
-$pdf->SetX(252);
-$pdf->Cell(50,8,'Tanggal',1,0,'C',1);
-
-$pdf->SetX(302);
-$pdf->Ln();
-
-//Table position, under Fields Name
-$Y_Table_Position = 38;
-
-//Now show the columns
-$pdf->SetFont('Arial','',10);
-
-$pdf->SetY($Y_Table_Position);
-$pdf->SetX(65);
-$pdf->MultiCell(12,6,$column_no,1,'C');
-
-$pdf->SetY($Y_Table_Position);
-$pdf->SetX(77);
-$pdf->MultiCell(25,6,$column_id_pengeluaran,1,'C');
-
-$pdf->SetY($Y_Table_Position);
-$pdf->SetX(102);
-$pdf->MultiCell(60,6,$column_nama_kategori,1,'L');
-
-$pdf->SetY($Y_Table_Position);
-$pdf->SetX(162);
-$pdf->MultiCell(30,6,$column_nominal,1,'C');
-
-$pdf->SetY($Y_Table_Position);
-$pdf->SetX(192);
-$pdf->MultiCell(60,6,$column_keterangan,1,'C');
-
-$pdf->SetY($Y_Table_Position);
-$pdf->SetX(252);
-$pdf->MultiCell(50,6,$column_tgl_pengeluaran,1,'C');
-
-$pdf->Output();
-	}
-	else{
-		echo "<script>window.alert('Tidak Ada Data!');
-				window.location.href=('../index.php?m=contents&p=laporan')
-			 </script>";
-	}
-} 
-else{
-	echo "Cetak data GAGAL";
-}?>
+?>

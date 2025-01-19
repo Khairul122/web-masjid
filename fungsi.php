@@ -41,19 +41,33 @@
 			   
     }
 	
-	function idtf(){
-	$conn = mysqli_connect("localhost", "root", "", "db_masjid");
-	$query  = "SELECT max(id_pemasukan) as maxID FROM tbl_pemasukan";
-	$tampil = mysqli_query($conn,$query);
-	$data   = mysqli_fetch_array($tampil);
-	$idPM  = $data['maxID'];
-	$noUrut  = (int) substr($idPM,3,3);
-	$noUrut++;
+	function idtf() {
+		$conn = mysqli_connect("localhost", "root", "", "db_masjid");
+		if (!$conn) {
+			throw new Exception("Koneksi gagal: " . mysqli_connect_error());
+		}
 	
-	$char    = "TF";
-	$newPM   = $char.sprintf("-%03s", $noUrut); 
-
-	echo $newPM;
+		try {
+			$query = "SELECT MAX(CAST(SUBSTRING(id_transfer, 4) AS UNSIGNED)) AS maxNum 
+					  FROM tbl_transfer 
+					  WHERE id_transfer LIKE 'TF-%'";
+			
+			$result = mysqli_query($conn, $query);
+			if (!$result) {
+				throw new Exception("Query error: " . mysqli_error($conn));
+			}
+	
+			$data = mysqli_fetch_assoc($result);
+			$maxNum = $data['maxNum'] ?? 0;
+			$nextNum = $maxNum + 1;
+			$newID = sprintf("TF-%03d", $nextNum);
+	
+			return $newID;
+	
+		} finally {
+			mysqli_close($conn);
+		}
 	}
+	
 	
 ?>

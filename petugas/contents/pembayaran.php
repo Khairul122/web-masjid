@@ -16,6 +16,9 @@
                                 <header class="dark">
                                     <div class="icons"><i class="icon-money"></i></div>
                                     <h5 class="text-info">Proses Pembayaran</h5>
+									<h5>
+										
+									</h5>
                                     <div class="toolbar">
                                         <ul class="nav">
                                             <li>
