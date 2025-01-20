@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 03 Sep 2021 pada 17.33
--- Versi server: 10.4.20-MariaDB
--- Versi PHP: 8.0.9
+-- Host: localhost:3306
+-- Generation Time: Jan 19, 2025 at 03:37 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `data_log`
+-- Table structure for table `data_log`
 --
 
 CREATE TABLE `data_log` (
@@ -35,7 +35,7 @@ CREATE TABLE `data_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `data_log`
+-- Dumping data for table `data_log`
 --
 
 INSERT INTO `data_log` (`aktivitas`, `pelaku_aktivitas`, `tanggal_aktivitas`, `detail_aktivitas`) VALUES
@@ -54,38 +54,46 @@ INSERT INTO `data_log` (`aktivitas`, `pelaku_aktivitas`, `tanggal_aktivitas`, `d
 ('Tambah', 'root@localhost', '2019-08-04 19:03:03', 'Menambah User Kategori Sedekah'),
 ('Tambah', 'root@localhost', '2019-08-04 19:28:18', 'Menambah Petugas BerID PT-001'),
 ('Tambah', 'root@localhost', '2019-08-04 19:28:53', 'Menambah User BerID US-002'),
-('Mengubah', 'root@localhost', '2021-09-01 20:22:29', 'Mengubah Data Petugas BerID PT-001');
+('Mengubah', 'root@localhost', '2021-09-01 20:22:29', 'Mengubah Data Petugas BerID PT-001'),
+('Hapus', 'root@localhost', '2025-01-19 12:29:14', 'Menghapus User BerID US-002'),
+('Hapus', 'root@localhost', '2025-01-19 12:29:17', 'Menghapus User BerID US-001'),
+('Tambah', 'root@localhost', '2025-01-19 14:14:23', 'Menambah Petugas BerID PT-002'),
+('Mengubah', 'root@localhost', '2025-01-19 14:14:37', 'Mengubah Data Petugas BerID PT-001'),
+('Tambah', 'root@localhost', '2025-01-19 14:16:21', 'Menambah User BerID US-001'),
+('Tambah', 'root@localhost', '2025-01-19 14:16:32', 'Menambah User Kategori Tes'),
+('Mengubah', 'root@localhost', '2025-01-19 22:04:34', 'Mengubah Data User BerID US-001');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_admin`
+-- Table structure for table `tbl_admin`
 --
 
 CREATE TABLE `tbl_admin` (
   `id_admin` char(6) NOT NULL,
   `nama_admin` varchar(50) NOT NULL,
   `nohp_admin` varchar(13) DEFAULT NULL,
-  `alamat_admin` text DEFAULT NULL,
+  `alamat_admin` text,
   `username_admin` varchar(50) NOT NULL,
   `password_admin` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_admin`
+-- Dumping data for table `tbl_admin`
 --
 
 INSERT INTO `tbl_admin` (`id_admin`, `nama_admin`, `nohp_admin`, `alamat_admin`, `username_admin`, `password_admin`) VALUES
-('AD-001', 'Ari Smrd', '085863727216', 'Bebas', 'admin', '*4ACFE3202A5FF5CF467898FC58AAB1D615029441');
+('AD-001', 'Ari Smrd', '085863727216', 'Bebas', 'admin', '*4ACFE3202A5FF5CF467898FC58AAB1D615029441'),
+('AD-002', 'Eka Prasetyo', '081234567891', 'Surabaya', 'eka', '40bd001563085fc35165329ea1ff5c5ecbdbbeef');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_agenda`
+-- Table structure for table `tbl_agenda`
 --
 
 CREATE TABLE `tbl_agenda` (
-  `id_agenda` int(11) NOT NULL,
+  `id_agenda` int NOT NULL,
   `id_petugas` char(6) NOT NULL,
   `judul` varchar(200) NOT NULL,
   `jam_awal` time NOT NULL,
@@ -95,33 +103,47 @@ CREATE TABLE `tbl_agenda` (
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_agenda`
+--
+
+INSERT INTO `tbl_agenda` (`id_agenda`, `id_petugas`, `judul`, `jam_awal`, `jam_akhir`, `tgl_awal`, `tgl_akhir`, `keterangan`) VALUES
+(1, 'PT-001', 'Tahfidz Alquran Syeikh Abdurrahman', '17:24:00', '17:25:00', '2025-01-19', '2025-01-19', 'tes');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_album`
+-- Table structure for table `tbl_album`
 --
 
 CREATE TABLE `tbl_album` (
-  `id_album` int(11) NOT NULL,
+  `id_album` int NOT NULL,
   `id_petugas` char(6) NOT NULL,
   `file_name` varchar(90) NOT NULL,
   `tgl_upload` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_album`
+--
+
+INSERT INTO `tbl_album` (`id_album`, `id_petugas`, `file_name`, `tgl_upload`) VALUES
+(1, 'PT-001', 'activity user.png', '2025-01-19');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_dana`
+-- Table structure for table `tbl_dana`
 --
 
 CREATE TABLE `tbl_dana` (
-  `id_dana` int(10) NOT NULL,
+  `id_dana` int NOT NULL,
   `id_kategori` char(10) NOT NULL,
-  `total` bigint(15) NOT NULL
+  `total` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_dana`
+-- Dumping data for table `tbl_dana`
 --
 
 INSERT INTO `tbl_dana` (`id_dana`, `id_kategori`, `total`) VALUES
@@ -131,31 +153,49 @@ INSERT INTO `tbl_dana` (`id_dana`, `id_kategori`, `total`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_detailpemasukan`
+-- Table structure for table `tbl_detailpemasukan`
 --
 
 CREATE TABLE `tbl_detailpemasukan` (
   `id_pemasukan` char(10) NOT NULL,
   `id_kategori` varchar(10) NOT NULL,
-  `jumlah` int(5) NOT NULL
+  `jumlah` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_detailpemasukan`
+--
+
+INSERT INTO `tbl_detailpemasukan` (`id_pemasukan`, `id_kategori`, `jumlah`) VALUES
+('PM-003', 'KT01', 5000),
+('PM-004', 'KT01', 7000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_detailtransfer`
+-- Table structure for table `tbl_detailtransfer`
 --
 
 CREATE TABLE `tbl_detailtransfer` (
   `id_transfer` varchar(10) NOT NULL,
   `id_kategori` char(10) NOT NULL,
-  `jumlah` int(10) NOT NULL
+  `jumlah` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_detailtransfer`
+--
+
+INSERT INTO `tbl_detailtransfer` (`id_transfer`, `id_kategori`, `jumlah`) VALUES
+('PM-001', 'KT01', 10000),
+('PM-002', 'KT02', 20000),
+('PM-003', 'KT01', 5000),
+('PM-004', 'KT01', 7000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_kategori`
+-- Table structure for table `tbl_kategori`
 --
 
 CREATE TABLE `tbl_kategori` (
@@ -164,15 +204,16 @@ CREATE TABLE `tbl_kategori` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_kategori`
+-- Dumping data for table `tbl_kategori`
 --
 
 INSERT INTO `tbl_kategori` (`id_kategori`, `nama_kategori`) VALUES
 ('KT01', 'Donasi'),
-('KT02', 'Sedekah');
+('KT02', 'Sedekah'),
+('KT03', 'Tes');
 
 --
--- Trigger `tbl_kategori`
+-- Triggers `tbl_kategori`
 --
 DELIMITER $$
 CREATE TRIGGER `auto` AFTER INSERT ON `tbl_kategori` FOR EACH ROW BEGIN
@@ -186,22 +227,30 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_pemasukan`
+-- Table structure for table `tbl_pemasukan`
 --
 
 CREATE TABLE `tbl_pemasukan` (
   `id_pemasukan` char(10) NOT NULL,
-  `id_user` char(10) NOT NULL,
+  `id_user` varchar(30) DEFAULT NULL,
   `id_petugas` char(10) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `tgl_pemasukan` varchar(15) NOT NULL,
-  `totalbayar` bigint(13) NOT NULL
+  `totalbayar` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_pemasukan`
+--
+
+INSERT INTO `tbl_pemasukan` (`id_pemasukan`, `id_user`, `id_petugas`, `nama`, `tgl_pemasukan`, `totalbayar`) VALUES
+('PM-003', 'US-001', 'PT-001', 'FIkri', '2025-01-19', 5000),
+('PM-004', 'US-001', 'PT-001', 'FIkri', '2025-01-19', 7000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_pengeluaran`
+-- Table structure for table `tbl_pengeluaran`
 --
 
 CREATE TABLE `tbl_pengeluaran` (
@@ -209,12 +258,12 @@ CREATE TABLE `tbl_pengeluaran` (
   `id_kategori` char(10) NOT NULL,
   `id_petugas` char(10) NOT NULL,
   `tgl_pengeluaran` datetime NOT NULL,
-  `nominal` int(12) NOT NULL,
+  `nominal` int NOT NULL,
   `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Trigger `tbl_pengeluaran`
+-- Triggers `tbl_pengeluaran`
 --
 DELIMITER $$
 CREATE TRIGGER `danakeluar_auto` AFTER INSERT ON `tbl_pengeluaran` FOR EACH ROW BEGIN
@@ -227,29 +276,30 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_petugas`
+-- Table structure for table `tbl_petugas`
 --
 
 CREATE TABLE `tbl_petugas` (
   `id_petugas` char(6) NOT NULL,
-  `no_ktp` int(20) NOT NULL,
+  `no_ktp` int NOT NULL,
   `nama` varchar(50) NOT NULL,
   `alamat` text NOT NULL,
-  `no_hp` int(13) NOT NULL,
+  `no_hp` varchar(15) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(150) NOT NULL,
   `id_admin` char(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_petugas`
+-- Dumping data for table `tbl_petugas`
 --
 
 INSERT INTO `tbl_petugas` (`id_petugas`, `no_ktp`, `nama`, `alamat`, `no_hp`, `username`, `password`, `id_admin`) VALUES
-('PT-001', 908070605, 'Ari Sumardi', 'Sekeloa', 2147483647, 'petugas', '$2y$10$q/vBmuqpujbweoBkZvR5TOWN0AnoqDb/1PiS.s7Bf9OjFYq07ews6', 'AD-001');
+('PT-001', 908070605, 'Ari Sumardi1', ' Sekeloa ', '2147483647', 'petugas', '$2y$10$q/vBmuqpujbweoBkZvR5TOWN0AnoqDb/1PiS.s7Bf9OjFYq07ews6', 'AD-001'),
+('PT-002', 12223455, 'Budiman', 'Padang', '082165443677', 'budiman', '$2y$10$iYvJXtA2W73B/8G3xCd3TeFbpgHT5c7ydz01rwkqlXSk8GAJYcI1O', 'AD-002');
 
 --
--- Trigger `tbl_petugas`
+-- Triggers `tbl_petugas`
 --
 DELIMITER $$
 CREATE TRIGGER `editpetugas` AFTER UPDATE ON `tbl_petugas` FOR EACH ROW INSERT INTO data_log (aktivitas, pelaku_aktivitas, tanggal_aktivitas, detail_aktivitas)
@@ -270,31 +320,31 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_sementara`
+-- Table structure for table `tbl_sementara`
 --
 
 CREATE TABLE `tbl_sementara` (
   `id_pemasukan` char(10) NOT NULL,
   `id_kategori` char(10) NOT NULL,
-  `jumlah` int(5) NOT NULL
+  `jumlah` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_sementaratrf`
+-- Table structure for table `tbl_sementaratrf`
 --
 
 CREATE TABLE `tbl_sementaratrf` (
-  `id_transfer` varchar(10) NOT NULL,
-  `id_kategori` char(10) NOT NULL,
-  `subtotal` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_transfer` varchar(50) NOT NULL,
+  `id_kategori` varchar(30) NOT NULL,
+  `subtotal` decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_transfer`
+-- Table structure for table `tbl_transfer`
 --
 
 CREATE TABLE `tbl_transfer` (
@@ -303,16 +353,27 @@ CREATE TABLE `tbl_transfer` (
   `nama` varchar(50) NOT NULL,
   `no_rekening` varchar(30) NOT NULL,
   `nama_bank` varchar(30) NOT NULL,
-  `jumlah` bigint(15) NOT NULL,
+  `jumlah` bigint NOT NULL,
   `tgl_transfer` date NOT NULL,
   `image` varchar(100) NOT NULL,
-  `status` enum('tertunda','sukses') NOT NULL
+  `status` enum('tertunda','sukses','selesai') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_transfer`
+--
+
+INSERT INTO `tbl_transfer` (`id_transfer`, `id_user`, `nama`, `no_rekening`, `nama_bank`, `jumlah`, `tgl_transfer`, `image`, `status`) VALUES
+('', 'US-001', 'FIkri', '', '', 10000, '2025-01-19', 'activity biro.png', 'sukses'),
+('PM-001', 'US-001', 'FIkri', '', '', 10000, '2025-01-19', 'activity biro.png', 'sukses'),
+('PM-002', 'US-001', 'FIkri', '', '', 20000, '2025-01-19', 'activity admin.png', 'sukses'),
+('PM-003', 'US-001', 'FIkri', '0865131609', 'BNI', 5000, '2025-01-19', 'activity user.png', 'selesai'),
+('PM-004', 'US-001', 'FIkri', '0865131609', 'BNI', 7000, '2025-01-19', 'activity biro.png', 'selesai');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_user`
+-- Table structure for table `tbl_user`
 --
 
 CREATE TABLE `tbl_user` (
@@ -320,22 +381,21 @@ CREATE TABLE `tbl_user` (
   `nama_user` varchar(50) NOT NULL,
   `nohp_user` varchar(13) NOT NULL,
   `alamat_user` text NOT NULL,
-  `bank_user` varchar(30) NOT NULL,
-  `rekening_user` varchar(35) NOT NULL,
+  `bank_user` varchar(100) DEFAULT NULL,
+  `rekening_user` varchar(100) DEFAULT NULL,
   `username_user` varchar(50) NOT NULL,
   `password_user` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_user`
+-- Dumping data for table `tbl_user`
 --
 
 INSERT INTO `tbl_user` (`id_user`, `nama_user`, `nohp_user`, `alamat_user`, `bank_user`, `rekening_user`, `username_user`, `password_user`) VALUES
-('US-001', 'sadsa', '+623123212131', 'dsadas', '', '', '123', '$2y$10$cuBCKtCsaVIhHZ9CRiSeUuEzNcd43RWx8motgmK0aJA9eJoC/Wc0u'),
-('US-002', 'Muhammad Farhaan', '081982745182', 'BPC', 'BNI', '601004235', 'user', '$2y$10$JuuQnZY0SIxlVnL/DhmbruCgrpuWIy9QekbWeh3e1sJDFFKFG2Xe2');
+('US-001', 'FIkri', '082165443677', ' Padang ', 'BNI', '0865131609', 'fikri', '$2y$10$sxyQpfCdG6.uecvn/aEkD.ILeIqBnI4J2wcCmx7nL8sLjO5s0WcNe');
 
 --
--- Trigger `tbl_user`
+-- Triggers `tbl_user`
 --
 DELIMITER $$
 CREATE TRIGGER `deteleuser` BEFORE DELETE ON `tbl_user` FOR EACH ROW INSERT INTO data_log (aktivitas, pelaku_aktivitas, tanggal_aktivitas, detail_aktivitas)
@@ -358,13 +418,13 @@ DELIMITER ;
 --
 
 --
--- Indeks untuk tabel `tbl_admin`
+-- Indexes for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `tbl_agenda`
+-- Indexes for table `tbl_agenda`
 --
 ALTER TABLE `tbl_agenda`
   ADD PRIMARY KEY (`id_agenda`),
@@ -375,28 +435,28 @@ ALTER TABLE `tbl_agenda`
   ADD KEY `id_petugas_5` (`id_petugas`);
 
 --
--- Indeks untuk tabel `tbl_album`
+-- Indexes for table `tbl_album`
 --
 ALTER TABLE `tbl_album`
   ADD PRIMARY KEY (`id_album`),
   ADD KEY `id_petugas` (`id_petugas`);
 
 --
--- Indeks untuk tabel `tbl_dana`
+-- Indexes for table `tbl_dana`
 --
 ALTER TABLE `tbl_dana`
   ADD PRIMARY KEY (`id_dana`),
   ADD KEY `id_kategori` (`id_kategori`);
 
 --
--- Indeks untuk tabel `tbl_detailpemasukan`
+-- Indexes for table `tbl_detailpemasukan`
 --
 ALTER TABLE `tbl_detailpemasukan`
   ADD KEY `id_pemasukan` (`id_pemasukan`),
   ADD KEY `id_kategori` (`id_kategori`);
 
 --
--- Indeks untuk tabel `tbl_detailtransfer`
+-- Indexes for table `tbl_detailtransfer`
 --
 ALTER TABLE `tbl_detailtransfer`
   ADD KEY `2` (`id_kategori`),
@@ -404,13 +464,13 @@ ALTER TABLE `tbl_detailtransfer`
   ADD KEY `id_transfer` (`id_transfer`);
 
 --
--- Indeks untuk tabel `tbl_kategori`
+-- Indexes for table `tbl_kategori`
 --
 ALTER TABLE `tbl_kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
--- Indeks untuk tabel `tbl_pemasukan`
+-- Indexes for table `tbl_pemasukan`
 --
 ALTER TABLE `tbl_pemasukan`
   ADD PRIMARY KEY (`id_pemasukan`),
@@ -419,7 +479,7 @@ ALTER TABLE `tbl_pemasukan`
   ADD KEY `id_petugas_3` (`id_petugas`);
 
 --
--- Indeks untuk tabel `tbl_pengeluaran`
+-- Indexes for table `tbl_pengeluaran`
 --
 ALTER TABLE `tbl_pengeluaran`
   ADD PRIMARY KEY (`id_pengeluaran`),
@@ -429,115 +489,115 @@ ALTER TABLE `tbl_pengeluaran`
   ADD KEY `id_petugas_3` (`id_petugas`);
 
 --
--- Indeks untuk tabel `tbl_petugas`
+-- Indexes for table `tbl_petugas`
 --
 ALTER TABLE `tbl_petugas`
   ADD PRIMARY KEY (`id_petugas`),
   ADD KEY `id_admin` (`id_admin`);
 
 --
--- Indeks untuk tabel `tbl_sementara`
+-- Indexes for table `tbl_sementara`
 --
 ALTER TABLE `tbl_sementara`
   ADD KEY `id_pemasukan` (`id_pemasukan`);
 
 --
--- Indeks untuk tabel `tbl_sementaratrf`
+-- Indexes for table `tbl_sementaratrf`
 --
 ALTER TABLE `tbl_sementaratrf`
-  ADD KEY `id_transfer` (`id_transfer`);
+  ADD PRIMARY KEY (`id_transfer`);
 
 --
--- Indeks untuk tabel `tbl_transfer`
+-- Indexes for table `tbl_transfer`
 --
 ALTER TABLE `tbl_transfer`
   ADD PRIMARY KEY (`id_transfer`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `tbl_user`
+-- Indexes for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_agenda`
+-- AUTO_INCREMENT for table `tbl_agenda`
 --
 ALTER TABLE `tbl_agenda`
-  MODIFY `id_agenda` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_agenda` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_album`
+-- AUTO_INCREMENT for table `tbl_album`
 --
 ALTER TABLE `tbl_album`
-  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_album` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_dana`
+-- AUTO_INCREMENT for table `tbl_dana`
 --
 ALTER TABLE `tbl_dana`
-  MODIFY `id_dana` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_dana` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `tbl_agenda`
+-- Constraints for table `tbl_agenda`
 --
 ALTER TABLE `tbl_agenda`
   ADD CONSTRAINT `tbl_agenda_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `tbl_petugas` (`id_petugas`);
 
 --
--- Ketidakleluasaan untuk tabel `tbl_album`
+-- Constraints for table `tbl_album`
 --
 ALTER TABLE `tbl_album`
   ADD CONSTRAINT `tbl_album_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `tbl_petugas` (`id_petugas`);
 
 --
--- Ketidakleluasaan untuk tabel `tbl_dana`
+-- Constraints for table `tbl_dana`
 --
 ALTER TABLE `tbl_dana`
   ADD CONSTRAINT `tbl_dana_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `tbl_kategori` (`id_kategori`);
 
 --
--- Ketidakleluasaan untuk tabel `tbl_detailpemasukan`
+-- Constraints for table `tbl_detailpemasukan`
 --
 ALTER TABLE `tbl_detailpemasukan`
   ADD CONSTRAINT `tbl_detailpemasukan_ibfk_1` FOREIGN KEY (`id_pemasukan`) REFERENCES `tbl_pemasukan` (`id_pemasukan`),
   ADD CONSTRAINT `tbl_detailpemasukan_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `tbl_kategori` (`id_kategori`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `tbl_detailtransfer`
+-- Constraints for table `tbl_detailtransfer`
 --
 ALTER TABLE `tbl_detailtransfer`
   ADD CONSTRAINT `tbl_detailtransfer_ibfk_1` FOREIGN KEY (`id_transfer`) REFERENCES `tbl_transfer` (`id_transfer`);
 
 --
--- Ketidakleluasaan untuk tabel `tbl_pemasukan`
+-- Constraints for table `tbl_pemasukan`
 --
 ALTER TABLE `tbl_pemasukan`
   ADD CONSTRAINT `tbl_pemasukan_ibfk_1` FOREIGN KEY (`id_petugas`) REFERENCES `tbl_petugas` (`id_petugas`);
 
 --
--- Ketidakleluasaan untuk tabel `tbl_pengeluaran`
+-- Constraints for table `tbl_pengeluaran`
 --
 ALTER TABLE `tbl_pengeluaran`
   ADD CONSTRAINT `tbl_pengeluaran_ibfk_1` FOREIGN KEY (`id_kategori`) REFERENCES `tbl_kategori` (`id_kategori`),
   ADD CONSTRAINT `tbl_pengeluaran_ibfk_2` FOREIGN KEY (`id_petugas`) REFERENCES `tbl_petugas` (`id_petugas`);
 
 --
--- Ketidakleluasaan untuk tabel `tbl_petugas`
+-- Constraints for table `tbl_petugas`
 --
 ALTER TABLE `tbl_petugas`
   ADD CONSTRAINT `tbl_petugas_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `tbl_admin` (`id_admin`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `tbl_transfer`
+-- Constraints for table `tbl_transfer`
 --
 ALTER TABLE `tbl_transfer`
   ADD CONSTRAINT `tbl_transfer_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `tbl_user` (`id_user`);
