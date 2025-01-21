@@ -33,33 +33,7 @@ if (!isset($_SESSION["username_admin"]))
 						</div>
 					</form>
 				</div>
-
 			</div>
-
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					Cetak Data User
-				</div>
-				<div class="panel-body">
-					<form method="post" action="contents/laporan-user.php">
-						<div class="form-group">
-							<label for="pimpinan" class="col-lg-2 control-label">Nama Pimpinan:</label>
-							<div class="col-lg-4">
-								<input type="text" name="pimpinan" id="pimpinan" class="form-control" placeholder="Masukkan Nama Pimpinan" required>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-lg-2">
-								<button class="btn btn-md btn-success" type="submit" name="cetak">
-									<i class="icon-print"></i> Cetak
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-
-			</div>
-
 		</div>
 	</div>
 </div>

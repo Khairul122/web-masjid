@@ -200,13 +200,7 @@ $tampil->bind_result($id_user,$nama_user,$nohp_user,$alamat_user,$bank_user,$rek
         <!--END PAGE CONTENT -->
 
          <!-- RIGHT STRIP  SECTION -->
-        <div id="right">
-           
-            <div class="well well-small">
-                <button class="btn btn-primary btn-block"> Bantuan</button>
-                <button class="btn btn-success btn-block"> Profil </button>
-            </div>
-        </div>
+      
          <!-- END RIGHT STRIP  SECTION -->
     </div>
 <?php

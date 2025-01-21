@@ -11,40 +11,7 @@ include 'library/database.php'; ?>
     <div class="row">
         <div class="col-lg-12">
             <div style="text-align: center;">
-                <div class="col-md-3">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <i class="icon-user-md icon-5x"></i>
-                            <?php
-                            $conn1 = mysqli_connect("localhost", "root", "", "db_masjid");
-                            if (!$conn1) {
-                                die("Koneksi gagal: " . mysqli_connect_error());
-                            }
-
-                            // Query untuk menghitung jumlah total user
-                            $query1 = "SELECT COUNT(*) AS jml1 FROM tbl_user";
-                            $sql1 = mysqli_query($conn1, $query1);
-
-                            // Inisialisasi jumlah user
-                            $jml1 = 0;
-
-                            if ($sql1) {
-                                $row1 = mysqli_fetch_assoc($sql1); // Ambil hasil query
-                                $jml1 = $row1['jml1']; // Simpan nilai jumlah user
-                            } else {
-                                echo "Error: " . mysqli_error($conn1);
-                            }
-
-                            // Tutup koneksi
-                            mysqli_close($conn1);
-                            ?>
-                            <h4><?php echo $jml1; ?></h4> <!-- Tampilkan jumlah user -->
-                        </div>
-                        <div class="panel-body">
-                            <span>User</span>
-                        </div>
-                    </div>
-                </div>
+            
                 <div class="col-md-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -89,61 +56,6 @@ include 'library/database.php'; ?>
 
     <!--TABLE, PANEL, ACCORDION AND MODAL  -->
     <div class="row">
-        <div class="col-lg-6">
-            <div class="box">
-                <header>
-                    <h5>Data User</h5>
-                    <div class="toolbar">
-                        <div class="btn-group">
-                            <a href="#sortableTable" data-toggle="collapse" class="btn btn-default btn-sm accordion-toggle minimize-box">
-                                <i class="icon-chevron-up"></i>
-                            </a>
-                        </div>
-                    </div>
-                </header>
-                <div id="sortableTable" class="body collapse in">
-                    <table class="table table-bordered sortableTable responsive-table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>ID User</th>
-                                <th>Nama User</th>
-                                <th>No HP</th>
-                                <th>Alamat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i = 1;
-                            $tampil = $koneksi->prepare("SELECT id_user,nama_user,nohp_user,alamat_user FROM tbl_user");
-                            $tampil->execute();
-                            $tampil->store_result();
-                            $tampil->bind_result($id_user, $nama, $nohp, $alamat);
-                            while ($tampil->fetch()) {
-                            ?>
-                                <tr>
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $id_user; ?></td>
-                                    <td><?php echo $nama; ?></td>
-                                    <td><?php echo $nohp; ?></td>
-                                    <td><?php echo $alamat; ?></td>
-                                </tr>
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-
-
-
-
-
-
-
-                    </table>
-                </div>
-            </div>
-        </div>
-
         <div class="col-lg-6">
             <div class="box">
                 <header>
@@ -192,12 +104,6 @@ include 'library/database.php'; ?>
                     </table>
                 </div>
             </div>
-
-
-
         </div>
     </div>
-    <!--TABLE, PANEL, ACCORDION AND MODAL  -->
-
-
 </div>

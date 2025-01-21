@@ -16,7 +16,7 @@ $tambah->bind_param("sss",$id_transaksi,$id_kategori,$nominal);
 if($tambah->execute())
 {
 	echo "<script>window.alert('Berhasil Ditambah!');
-		  window.location.href=('home.php')
+		  window.location.href=('index.php')
 		  </script>";
 }
 else

@@ -148,13 +148,7 @@
         <!--END PAGE CONTENT -->
 
          <!-- RIGHT STRIP  SECTION -->
-        <div id="right">
-            
-            <div class="well well-small">
-                <button class="btn btn-primary btn-block"> Bantuan</button>
-                <button class="btn btn-success btn-block"> Profil </button>
-            </div>
-        </div>
+       
          <!-- END RIGHT STRIP  SECTION -->
     </div>
 

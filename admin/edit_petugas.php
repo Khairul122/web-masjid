@@ -187,13 +187,7 @@ $tampil->bind_result($id_petugas,$no_ktp,$nama,$alamat,$no_hp,$username,$passwor
         <!--END PAGE CONTENT -->
 
          <!-- RIGHT STRIP  SECTION -->
-        <div id="right">
-            
-            <div class="well well-small">
-                <button class="btn btn-primary btn-block"> Bantuan</button>
-                <button class="btn btn-success btn-block"> Profil </button>
-            </div>
-        </div>
+       
          <!-- END RIGHT STRIP  SECTION -->
     </div>
 <?php

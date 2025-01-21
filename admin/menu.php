@@ -21,7 +21,7 @@
                 </li>				
 							
 				
-		        <li class="panel ">   
+		        <!-- <li class="panel ">   
                     <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#user-nav">
                         <i class="icon-group"> </i> Data User     
 	   
@@ -34,7 +34,7 @@
                         <li class=""><a href="index.php?m=contents&p=inputdatauser"><i class="icon-angle-right"></i> Input Data Baru </a></li>
                         <li class=""><a href="index.php?m=contents&p=listdatauser"><i class="icon-angle-right"></i> List Data User </a></li>
                     </ul>
-                </li>
+                </li> -->
 
                   <li class="panel ">
                     <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#ab-nav">
@@ -51,7 +51,7 @@
                     </ul>
                 </li>
 
-                <li class="panel ">
+                <!-- <li class="panel ">
                     <a href="#" data-parent="#menu" data-toggle="collapse" class="accordion-toggle" data-target="#br-nav">
                         <i class="icon-briefcase"> </i> Backup & Restore     
        
@@ -64,7 +64,7 @@
                         <li class=""><a href="index.php?m=contents&p=backup"><i class="icon-angle-right"></i> Backup </a></li>
                         <li class=""><a href="index.php?m=contents&p=restore"><i class="icon-angle-right"></i> Restore </a></li>
                     </ul>
-                </li>
+                </li> -->
                 
 
                 <li class="panel">

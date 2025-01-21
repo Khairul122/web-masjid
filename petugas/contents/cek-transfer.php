@@ -40,7 +40,6 @@ if (!isset($_SESSION["username_petugas"]))
 								<tr>
 									<th width="1%">No</th>
 									<th>ID</th>
-									<th>ID User</th>
 									<th>Nama Lengkap</th>
 									<th>Nomor Rekening</th>
 									<th>Bank</th>
@@ -54,13 +53,13 @@ if (!isset($_SESSION["username_petugas"]))
 								<?php
 								$i = 1;
 								$tampil = $koneksi->prepare("
-									SELECT id_transfer, id_user, nama, no_rekening, nama_bank, jumlah, tgl_transfer, image 
+									SELECT id_transfer, nama, no_rekening, nama_bank, jumlah, tgl_transfer, image 
 									FROM tbl_transfer 
 									WHERE status IN ('tertunda', 'sukses')
 								");
 								$tampil->execute();
 								$tampil->store_result();
-								$tampil->bind_result($idtrans, $iduser, $nama, $norek, $bank, $jml, $tgl, $img);
+								$tampil->bind_result($idtrans, $nama, $norek, $bank, $jml, $tgl, $img);
 								if ($tampil->num_rows() == 0) {
 									echo "<tr align='center' bgcolor='pink'><td  colspan='10'><b>BELUM ADA DATA!</b></td></tr>";
 								} else {
@@ -70,7 +69,6 @@ if (!isset($_SESSION["username_petugas"]))
 											<form method="post" action="library/proses-acc.php">
 												<td><?php echo $i++; ?></td>
 												<td><input type="text" name="idtrans" class="form-control" value="<?php echo $idtrans; ?>" readonly /></td>
-												<td><input type="text" name="iduser" class="form-control" value="<?php echo $iduser; ?>" readonly /></td>
 												<td><input type="text" name="nama" class="form-control" value="<?php echo $nama; ?>" readonly /></td>
 												<td><input type="text" name="norek" class="form-control" value="<?php echo $norek; ?>" readonly /></td>
 												<td><input type="text" name="bank" class="form-control" value="<?php echo $bank; ?>" readonly /></td>
