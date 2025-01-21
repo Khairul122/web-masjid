@@ -367,24 +367,67 @@ require_once("urut_transaksi.php");
 		<section id="contact" class="content-section">
 			<div class="section-heading">
 				<h1>Hubungi<br><em>Kami</em></h1>
-				<p>Alhamdulillah, kami ucapkan terimakasih atas
-					<br>Nikmat Allah yang Maha Kuasa.
-				</p>
+				<p>Alhamdulillah, kami ucapkan terimakasih atas<br>Nikmat Allah yang Maha Kuasa.</p>
 			</div>
-			<div style="border:0; padding:10px; width:760px; height:auto; text-align:left;">
+
+			<div class="contact-info" style="max-width: 760px; margin: 0 auto; padding: 20px;">
 				<form action="action-input-data.php" method="POST" name="form-input-data">
-					<table width="760" border="2" align="center" cellpadding="0" cellspacing="0">
-						<tr height="46">
-							<td>&nbsp;Whatsapp</td>
-							<td>&nbsp;+62 812-7154-2060</td>
+					<table style="width: 100%; border-collapse: collapse;">
+						<tr style="height: 46px;">
+							<td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Whatsapp</td>
+							<td style="padding: 10px; border: 1px solid #ddd;">+62 812-7154-2060</td>
 						</tr>
-						<tr height="46">
-							<td>&nbsp;Instagram</td>
-							<td>&nbsp;@Mutiiarajuwita</td>
+						<tr style="height: 46px;">
+							<td style="padding: 10px; font-weight: bold; border: 1px solid #ddd;">Instagram</td>
+							<td style="padding: 10px; border: 1px solid #ddd;">@Mutiiarajuwita</td>
 						</tr>
+					</table>
 				</form>
 			</div>
 		</section>
+
+		<style>
+			#contact {
+				background-color: #f9f9f9;
+				padding: 40px 20px;
+				text-align: center;
+			}
+
+			.section-heading h1 {
+				font-size: 2.5rem;
+				margin-bottom: 10px;
+				color: #333;
+			}
+
+			.section-heading em {
+				color: #007bff;
+				font-style: normal;
+			}
+
+			.section-heading p {
+				font-size: 1.2rem;
+				color: #555;
+				margin-bottom: 30px;
+			}
+
+			table {
+				width: 100%;
+				border: 1px solid #ddd;
+				border-radius: 8px;
+				overflow: hidden;
+			}
+
+			table td {
+				text-align: left;
+				font-size: 1rem;
+				color: #333;
+			}
+
+			table td:first-child {
+				font-weight: bold;
+				background-color: #f1f1f1;
+			}
+		</style>
 
 
 
