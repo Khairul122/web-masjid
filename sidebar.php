@@ -49,20 +49,20 @@
                     </li>
 					<li>
                     </li>
-					<li>
+					<!-- <li>
 						<input type="button" value="Logout" onclick="window.location.href='logout.php'" />
 						<?php
 						echo "<script>window.alert('Anda sudah logout
 								window.location.href=('index.php')
 								</script>";
 						?> 
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
 			
-            <ul class="social-icons">
+            <!-- <ul class="social-icons">
                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                 <li><a href="#"><i class="fa fa-instagram"></i></a></li>
                 <li><a href="#"><i class="fa fa-rss"></i></a></li>
-            </ul>
+            </ul> -->

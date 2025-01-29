@@ -335,33 +335,29 @@ require_once("urut_transaksi.php");
 				</p>
 			</div>
 			<form action="tambah-pembayaran.php" method="POST" enctype="multipart/form-data">
-				<!-- ID Transaksi -->
-				<label for="idtrx">ID Transaksi:</label>
-				<input type="text" id="idtrx" name="idtrx" value="<?php echo $newTF; ?>" required>
+            <label for="idtrx">ID Transaksi:</label>
+            <input type="text" id="idtrx" name="idtrx" value="PM-006" required readonly>
 
-				<!-- Nama User -->
-				<label for="nama_user">Nama Pengguna:</label>
-				<input type="text" id="nama_user" name="nama_user" placeholder="Masukkan Nama Pengguna" maxlength="50" required>
+            <label for="nama_user">Nama Pengguna:</label>
+            <input type="text" id="nama_user" name="nama_user" placeholder="Masukkan Nama Pengguna" maxlength="50" required>
 
-				<!-- Tanggal -->
-				<label for="tgl">Tanggal:</label>
-				<input type="date" id="tgl_transfer" name="tgl" value="<?php echo date('Y-m-d'); ?>" readonly>
+            <label for="tgl">Tanggal:</label>
+            <input type="date" id="tgl_transfer" name="tgl" value="2025-01-29" readonly>
 
-				<!-- Bank -->
-				<label for="bank">Nama Bank:</label>
-				<input type="text" id="bank" name="bank" placeholder="Masukkan Nama Bank" required>
+            <label for="bank">Nama Bank:</label>
+            <input type="text" id="bank" name="bank" placeholder="Masukkan Nama Bank" required>
 
-				<!-- Rekening -->
-				<label for="rekening">Nomor Rekening:</label>
-				<input type="text" id="rekening" name="rekening" placeholder="Masukkan Nomor Rekening" required>
+            <label for="rekening">Nomor Rekening:</label>
+            <input type="text" id="rekening" name="rekening" placeholder="Masukkan Nomor Rekening" required>
 
-				<!-- Upload Bukti Pembayaran -->
-				<label for="file">Unggah Bukti Pembayaran:</label>
-				<input type="file" id="file" name="file" accept="image/jpeg, image/png, image/gif" required>
+            <label for="jumlah">Jumlah Pembayaran:</label>
+            <input type="text" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Pembayaran" required>
 
-				<!-- Submit -->
-				<button type="submit">Kirim</button>
-			</form>
+            <label for="file">Unggah Bukti Pembayaran:</label>
+            <input type="file" id="file" name="file" accept="image/jpeg, image/png, image/gif" required>
+
+            <button type="submit">Kirim</button>
+        </form>
 		</section>
 
 		<section id="contact" class="content-section">
