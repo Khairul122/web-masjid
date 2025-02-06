@@ -200,165 +200,209 @@ require_once("urut_transaksi.php");
 		</section>
 
 		<section id="datakeuangan" class="content-section">
-			<div class="section-heading">
-				<h1>Data Keuangan<br><em>Masjid Baiturrahman</em></h1>
-				<p>Alhamdulillah, kami ucapkan terimakasih atas
-					<br>Nikmat Allah yang Maha Kuasa.
-				</p>
-				<div>
-					<br>
-				</div>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Data uang yang masuk ke kas masjid
-							</div>
-							<div class="icons"><i class="icon-money"></i></div>
-							<div class="toolbar">
-								<ul class="nav">
-									<li>
-										<div class="btn-group">
-											<a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
-												href="#collapse2">
-												<i class="icon-chevron-up"></i>
-											</a>
-										</div>
-									</li>
-								</ul>
-							</div>
-							</header>
-							<div class="table-responsive">
-								<table class="table table-striped table-bordered table-hover">
-									<thead>
-										<tr class="default">
-											<th>ID Transaksi</th>
-											<th>Tanggal</th>
-											<th>Nominal</th>
-										</tr>
-									</thead>
-
-									<?php
-									$tampil = $koneksi->prepare("SELECT id_pemasukan, tgl_pemasukan, totalbayar from tbl_pemasukan order by id_pemasukan desc");
-									$tampil->execute();
-									$tampil->store_result();
-									$tampil->bind_result($id, $tgl, $tot);
-									while ($tampil->fetch()) {
-
-									?>
-										<tbody>
-											<tr>
-												<td width="13%"><?php echo $id; ?></td>
-												<td width="13%"><?php echo $tgl; ?></td>
-												<td width="17%"><?php echo rupiah($tot); ?></td>
-											</tr>
-										<?php } ?>
-										</tr>
-										</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								Data uang yang keluar dari kas masjid
-							</div>
-							<div class="panel-body">
-								<!-- FORM SEARCH -->
-								<!--<div class="row">
-                                        <div class="col-xs-9">
-                                            &nbsp;
-                                        </div> 
-										<div class="col-lg-3 form-group input-group">
-                                            <input type="text" placeholder="ketikkan sesuatu..." class="form-control" />
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button">
-                                                    <i class="icon-search"></i>
-                                                </button>
-                                            </span>
+    <div class="section-heading">
+        <h1>Data Keuangan<br><em>Masjid Baiturrahman</em></h1>
+        <p>Alhamdulillah, kami ucapkan terimakasih atas<br>Nikmat Allah yang Maha Kuasa.</p>
+        <div><br></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Data uang yang masuk ke kas masjid</div>
+                    <div class="icons"><i class="icon-money"></i></div>
+                    <div class="toolbar">
+                        <ul class="nav">
+                            <li>
+                                <div class="btn-group">
+                                    <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse" href="#collapse2">
+                                        <i class="icon-chevron-up"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <?php
+                                $conn = mysqli_connect("localhost", "root", "", "db_masjid");
+                                $queries = [
+                                    "SELECT SUM(total) AS totaldana FROM tbl_dana" => ["panel-info", "icon-money", "Total Dana"],
+                                    "SELECT SUM(totalbayar) AS total_pemasukan FROM tbl_pemasukan" => ["panel-success", "icon-download", "Total Pemasukan"],
+                                    "SELECT SUM(nominal) AS total_pengeluaran FROM tbl_pengeluaran" => ["panel-danger", "icon-upload", "Total Pengeluaran"]
+                                ];
+                                $data = [];
+                                foreach ($queries as $query => $info) {
+                                    $sql = mysqli_query($conn, $query);
+                                    $row = mysqli_fetch_assoc($sql);
+                                    $data[] = $row[array_keys($row)[0]];
+                                }
+                                $data[] = $data[1] - $data[2];
+                                $classes = ["panel-primary", "icon-wallet", "Sisa Saldo"];
+                                array_push($queries, $classes);
+                                
+                                $i = 0;
+                                foreach ($queries as $query => $info) {
+                                    echo '<div class="col-md-3">
+                                        <div class="panel ' . $info[0] . '">
+                                            <div class="panel-heading">
+                                                <i class="' . $info[1] . ' icon-5x"></i>
+                                                <h4>' . rupiah($data[$i]) . '</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                <span>' . $info[2] . '</span>
+                                            </div>
                                         </div>
-                                        </div>-->
-								<!-- END FORM SEARCH -->
-								<div class="table-responsive">
-									<table class="table table-condesed table-bordered table-hover">
-										<thead>
-											<tr>
-												<th width="1%">No</th>
-												<th width="6%">ID Transaksi</th>
-												<th width="10%">Nominal</th>
-												<th width="15%">Tanggal</th>
-												<th width="30%">Keterangan</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php
-											$i = 1;
-											$tampil = $koneksi->prepare("SELECT id_pengeluaran,nominal,tgl_pengeluaran,keterangan FROM tbl_pengeluaran");
-											$tampil->execute();
-											$tampil->store_result();
-											$tampil->bind_result($id, $jml, $tgl, $ket);
-											if ($tampil->num_rows() == 0) {
-												echo "<tr align='center' bgcolor='pink'><td  colspan='10'><b>BELUM ADA DATA!</b></td></tr>";
-											} else {
-												while ($tampil->fetch()) {
-											?>
-													<tr>
-														<td><?php echo $i++; ?></td>
-														<td><?php echo $id; ?></td>
-														<td><?php echo rupiah($jml); ?></td>
-														<td><?php echo $tgl; ?></td>
-														<td class="text-danger"><?php echo $ket; ?></td>
-													</tr>
-											<?php
-												}
-											}
-											?>
-										</tbody>
-									</table>
-								</div>
+                                    </div>';
+                                    $i++;
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Data uang yang masuk ke kas masjid</div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr class="default">
+                                    <th>ID Transaksi</th>
+                                    <th>Nama Pemberi</th>
+                                    <th>Tanggal</th>
+                                    <th>Nominal</th>
+                                </tr>
+                            </thead>
+                            <?php
+                            $tampil = $koneksi->prepare("SELECT p.id_pemasukan, t.nama, p.tgl_pemasukan, p.totalbayar FROM tbl_pemasukan p LEFT JOIN tbl_transfer t ON p.id_pemasukan = t.id_transfer ORDER BY p.id_pemasukan DESC");
+                            $tampil->execute();
+                            $tampil->store_result();
+                            $tampil->bind_result($id, $nama, $tgl, $tot);
+                            while ($tampil->fetch()) {
+                            ?>
+                                <tbody>
+                                    <tr>
+                                        <td width="13%"> <?php echo $id; ?> </td>
+                                        <td width="20%"> <?php echo $nama; ?> </td>
+                                        <td width="13%"> <?php echo $tgl; ?> </td>
+                                        <td width="17%"> <?php echo rupiah($tot); ?> </td>
+                                    </tr>
+                                <?php } ?>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Data uang yang keluar dari kas masjid</div>
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="1%">No</th>
+                                    <th width="6%">ID Transaksi</th>
+                                    <th width="10%">Nominal</th>
+                                    <th width="15%">Tanggal</th>
+                                    <th width="30%">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $i = 1;
+                                $tampil = $koneksi->prepare("SELECT id_pengeluaran, nominal, tgl_pengeluaran, keterangan FROM tbl_pengeluaran");
+                                $tampil->execute();
+                                $tampil->store_result();
+                                $tampil->bind_result($id, $jml, $tgl, $ket);
+                                while ($tampil->fetch()) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i++; ?></td>
+                                        <td><?php echo $id; ?></td>
+                                        <td><?php echo rupiah($jml); ?></td>
+                                        <td><?php echo $tgl; ?></td>
+                                        <td class="text-danger"> <?php echo $ket; ?> </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+		<?php
+		$conn = new mysqli("localhost", "root", "", "db_masjid");
 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		if ($conn->connect_error) {
+			die("Koneksi gagal: " . $conn->connect_error);
+		}
+
+		$sql = "SELECT id_transfer FROM tbl_transfer ORDER BY id_transfer DESC LIMIT 1";
+		$result = $conn->query($sql);
+
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			$lastID = $row['id_transfer'];
+
+			$number = intval(substr($lastID, 3)) + 1;
+		} else {
+		}
+
+		$newID = "PM-" . str_pad($number, 3, "0", STR_PAD_LEFT);
+		?>
+
 
 		<section id="donate" class="content-section">
 			<div class="section-heading">
 				<h1>Donasi<br><em>Sedekah</em></h1>
-				<p>Alhamdulillah, kami ucapkan terimakasih atas
+				<p>Alhamdulillah, kami ucapkan terima kasih atas
 					<br>Nikmat Allah yang Maha Kuasa.
 				</p>
 			</div>
+
+			<div class="rekening-info">
+				<h3>Rekening Donasi</h3>
+				<p><strong>Bank Syariah Indonesia (BSI)</strong></p>
+				<p>No. Rekening: <strong>7181038777</strong></p>
+				<p>Atas Nama: <strong>Mutiara Juwita</strong></p>
+			</div>
+
 			<form action="tambah-pembayaran.php" method="POST" enctype="multipart/form-data">
-            <label for="idtrx">ID Transaksi:</label>
-            <input type="text" id="idtrx" name="idtrx" value="PM-006" required readonly>
+				<label for="idtrx">ID Transaksi:</label>
+				<input type="text" id="id_transfer" name="idtrx" value="<?php echo $newID; ?>" readonly required>
 
-            <label for="nama_user">Nama Pengguna:</label>
-            <input type="text" id="nama_user" name="nama_user" placeholder="Masukkan Nama Pengguna" maxlength="50" required>
 
-            <label for="tgl">Tanggal:</label>
-            <input type="date" id="tgl_transfer" name="tgl" value="2025-01-29" readonly>
+				<label for="nama_user">Nama Pengguna:</label>
+				<input type="text" id="nama_user" name="nama_user" placeholder="Masukkan Nama Pengguna" maxlength="50" required>
 
-            <label for="bank">Nama Bank:</label>
-            <input type="text" id="bank" name="bank" placeholder="Masukkan Nama Bank" required>
+				<label for="tgl">Tanggal:</label>
+				<input type="date" id="tgl_transfer" name="tgl" value="2025-01-29" readonly>
 
-            <label for="rekening">Nomor Rekening:</label>
-            <input type="text" id="rekening" name="rekening" placeholder="Masukkan Nomor Rekening" required>
+				<label for="bank">Nama Bank:</label>
+				<input type="text" id="bank" name="bank" placeholder="Masukkan Nama Bank" required>
 
-            <label for="jumlah">Jumlah Pembayaran:</label>
-            <input type="text" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Pembayaran" required>
+				<label for="rekening">Nomor Rekening:</label>
+				<input type="text" id="rekening" name="rekening" placeholder="Masukkan Nomor Rekening" required>
 
-            <label for="file">Unggah Bukti Pembayaran:</label>
-            <input type="file" id="file" name="file" accept="image/jpeg, image/png, image/gif" required>
+				<label for="jumlah">Jumlah Pembayaran:</label>
+				<input type="text" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Pembayaran" required>
 
-            <button type="submit">Kirim</button>
-        </form>
+				<label for="file">Unggah Bukti Pembayaran:</label>
+				<input type="file" id="file" name="file" accept="image/jpeg, image/png, image/gif" required>
+
+				<button type="submit">Kirim</button>
+			</form>
 		</section>
+
 
 		<section id="contact" class="content-section">
 			<div class="section-heading">
